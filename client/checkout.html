@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>checkout</title>
+</head>
+<body>
+  <div id="checkout" v-cloak>
+    <!-- {{shops}} -->
+    <div class="row" v-for = "shop in shops">
+        <div class="col">
+            <h4><img v-bind:src="shop.url"></h4>
+        </div>
+        <div class="col align-self-center">
+            <div class="row">
+                <h4>{{shop.brand}}</h4>
+            </div>
+            <div class="row">
+                <h4>{{shop.name}}</h4>
+            </div>
+            <div class="row">
+                <h4>Rp {{shop.price}}</h4>
+            </div>
+            <div>
+                <div class="col">{{shop.qty}}</div>
+            </div>
+        </div>
+    </div>
+    <h4 id="total">total : Rp {{total}}</h4>
+  </div>
+
+  <script>
+  var app = new Vue({
+    el: '#checkout',
+    data: {
+      shops:'',
+      total:''
+    },
+    created(){
+      this.shops = JSON.parse(localStorage.getItem('shops'))
+      this.total = localStorage.getItem('total')
+    }
+  })
+  
+  
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

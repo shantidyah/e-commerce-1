@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="upload">
+        name:
+        <input type="text" v-model="name">
+        brand: 
+        <input type="text" v-model="brand">
+        price:
+        <input type="number" v-model="price">
+        category:
+        <input type="text" v-model="category">
+        <input type="file" id="img" v-on:change="fileImage($event.target.files[0])">
+        <button v-on:click='submitFile'>upload</button>
+        
+    </div>
+
+    <script>
+        var upload = new Vue({
+            el: "#upload",
+            data: {
+                image : '',
+                name : '',
+                brand : '',
+                price : '',
+                category : ''
+            },
+            methods:{
+                fileImage:function(e){
+                    this.image = e
+                },
+                submitFile: function(){
+                    var formData = new FormData()
+                    formData.append('image',this.image)
+                    console.log("ini form data",formData);
+                    var self = this
+                    let token = localStorage.getItem('token')
+                    axios.post('http://localhost:3000/upload',formData)
+                    .then(result=>{
+                        console.log(result);
+                        console.log("berhasil")
+                        console.log("nih link gcpnya",result.data.link);
+                        
+                        // axios({
+                        //     method: 'post',
+                        //     url: 'http://localhost:3000/addPro',
+                        //     data: {
+                        //         name:self.name,
+                        //         url:result.data.link,
+                        //         brand: self.brand,
+                        //         price: self.price,
+                        //         category: self.category
+                        //     }
+                        // })
+                        // .then(items=>{
+                        //     console.log(items);
+                        // })
+                        // .catch(err=>{
+                        //     console.log(err);
+                            
+                        // })
+                    })
+                    .catch(result=>{
+                        console.log("gagal");
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
