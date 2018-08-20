@@ -35,13 +35,13 @@
               </div>
               <div class="modal-body">
                 name product:
-                <input type="text" class="form-control" id="usr" name="name" v-model="name">
+                <input type="text" class="form-control" id="namelist" name="name" v-model="name">
                 brand:
-                <input type="text" class="form-control" id="usr" name="brand" v-model="brand">
+                <input type="text" class="form-control" id="brandlist" name="brand" v-model="brand">
                 price:
-                <input type="number" class="form-control" id="usr" name="price" v-model="price">
+                <input type="number" class="form-control" id="pricelist" name="price" v-model="price">
                 category:
-                <input type="text" class="form-control" id="usr" name="category" v-model="category">
+                <input type="text" class="form-control" id="categlist" name="category" v-model="category">
                 upload image :
                 <input type="file" v-on:change="selectedImage">
               </div>
@@ -84,7 +84,7 @@
       <div class="container">
         <div class="row">
           <template v-if="seen">
-            <products @add='addcart' v-bind:listproduct='items'></products>
+            <products @add='addcart' v-bind:dataforedit='dataForEdit' v-bind:listproduct='items' @delete='Delete' @valedit='valueEdit' @select='selectedImage' @edit='Edit'></products>
 
           </template>
           <template v-else>
@@ -103,19 +103,6 @@
     
     </div>
     
-
-      <!-- <div class="footer">
-          <div class="sosmed">
-            <img class="icon" src="facebook.png">
-            <img class="icon" src="twitter.png">
-            <img class="icon" src="email.png">
-            <img class="icon" src="youtube.png">
-            <img class="icon" src="instagram.jpeg">            
-          </div>
-      </div> -->
-
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

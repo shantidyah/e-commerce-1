@@ -51,4 +51,31 @@ router.post('/addPro',(req,res)=>{
 })
 
 
+router.delete('/delete/:id', (req,res) =>{
+  Product.findByIdAndRemove( req.params.id )
+  .then( result =>{
+      res.json( result )
+  })
+  .catch( err =>{
+      res.json( err )
+  })
+})
+
+router.put('/edit/:id', (req,res)=>{
+  Product.findByIdAndUpdate( req.params.id, {
+    name: req.body.name,
+    brand: req.body.brand,
+    price: req.body.price,
+    category: req.body.category,
+    url: req.body.url
+  })
+  .then( product => {
+      res.json( product )
+  })
+  .catch( err =>{
+      res.json( err )
+  })
+})
+
+
 module.exports = router

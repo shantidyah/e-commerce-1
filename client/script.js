@@ -9,6 +9,7 @@ var app = new Vue({
     name:'',
     brand:'',
     price:'',
+    url:'',
     category:'',
     img:'',
     islogin:false,
@@ -17,25 +18,10 @@ var app = new Vue({
     token: '',
     access:false,
     count:0,
-    tokencust:''
+    tokencust:'',
+    idPro:'',
+    dataForEdit: ''
   },
-  // filters: {
-  //   formatCurrency : function(param){
-  //     var price = param;
-	
-  //     var	number_string = price.toString(),
-  //       value 	= number_string.length % 3,
-  //       rupiah 	= number_string.substr(0, value),
-  //       ribu 	= number_string.substr(value).match(/\d{3}/g);
-          
-  //     if (ribu) {
-  //       separator = value ? '.' : '';
-  //       rupiah += separator + ribu.join('.');
-  //     }
-
-  //     return `Rp ${rupiah}`
-  //   }
-  // },
   created(){
     this.token = localStorage.getItem('token')
     this.tokencust = localStorage.getItem('customer')
@@ -254,6 +240,63 @@ var app = new Vue({
       else{
         swal("Failed!", "you must complete the form registers", "warning");
       }
+    },
+    Delete(id){
+      axios.delete(`http://localhost:3000/delete/${id}`)
+      .then( delpro =>{
+          // console.log(delpro);
+          // this.product()     
+          window.location = '/'
+      })
+      .catch( err =>{
+          console.log(err);
+      })
+    },
+    valueEdit(product){
+      this.dataForEdit = product
+      this.idPro = product._id
+    },
+    Edit(item){
+      // console.log(item);
+      
+      if(this.img){
+        let formData = new FormData()
+        formData.append('image',this.img)
+        axios.post('http://localhost:3000/upload',formData)
+        .then(result=>{
+          console.log("success upload to bucket");
+          this.url = result.data.link
+        })
+        .catch(err=>{
+          console.log(err);
+          
+        })
+      }
+      axios.put(`http://localhost:3000/edit/${this.idPro}`,{
+        name : item.name,
+        brand : item.brand,
+        price : item.price,
+        category : item.category,
+        url : this.url
+      })
+      .then(product=>{
+          this.name = ''
+          this.brand = ''
+          this.price = 0
+          this.category = ''
+          this.img = ''
+          swal("", "You success edit a product!", "success")
+          .then(value=>{
+            this.getProduct()                   
+          })
+          .catch(err=>{
+              console.log(err);
+          }) 
+        console.log('success add to database');
+      })
+      .catch(err=>{
+        console.log(err);
+      }) 
     }
   }
 })
